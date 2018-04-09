@@ -14,9 +14,9 @@ BROKER = 'deisi.deiseroth.de'
 PORT = 8883
 TLS = {'ca_certs': '/etc/ssl/certs/ca-certificates.crt'}
 ds18b20 = Ds18b20()
-debug = 0
+debug = 1
 
-with open('secret.yaml') as secret:
+with open('/home/pi/bin/secret.yaml') as secret:
     AUTH = yaml.load(secret)
 
 def read_data():
@@ -36,7 +36,7 @@ def send_data():
         LAST_SEND['hum'] += 1
         hum = None
 
-    if (temp - TEMP_LAST)**2 < 0.5**2 and LAST_SEND['temp']/INTERVAL <= 1:
+    if (temp - TEMP_LAST)**2 < 0.3**2 and LAST_SEND['temp']/INTERVAL <= 1:
         LAST_SEND['temp'] += 1
         temp = None
 
@@ -69,7 +69,7 @@ def send_data():
 
 # Global Variables
 HUM_LAST = 80 #%
-TEMP_LAST = 20 # degree
+TEMP_LAST = 15 # degree
 STIME = 10 # seconds
 LAST_SEND = {'hum' : 0, 'temp': 0} #Counter
 INTERVAL = 90 # Counter
